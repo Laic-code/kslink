@@ -1,0 +1,45 @@
+/* GERADO por tools/apply-brand.mjs a partir de brand.json — não edite à mão. */
+:root {
+  --bg: #f3f6f9;
+  --surface: #ffffff;
+  --surface2: #eef2f6;
+  --border: #d5dde5;
+  --accent: #0e74bc;
+  --accent2: #717275;
+  --violet: #a7a8ab;
+  --danger: #c0392b;
+  --warn: #b7791f;
+  --text: #26272b;
+  --muted: #6b6d72;
+  --on-accent: #ffffff;
+  --accent-hover: #0b5e97;
+  --input-bg: #ffffff;
+  --bg-rgb: 243, 246, 249;
+  --surface-rgb: 255, 255, 255;
+  --accent-rgb: 14, 116, 188;
+  --accent2-rgb: 113, 114, 117;
+  --violet-rgb: 167, 168, 171;
+  --danger-rgb: 192, 57, 43;
+  --text-rgb: 38, 39, 43;
+  --display: 'Rajdhani', system-ui, sans-serif;
+}
+
+/* estilo corporativo: sem grade, linhas de varredura, glitch, brilho neon nem cantos chanfrados */
+body::before, body::after { display: none; }
+body { background: var(--bg); }
+* { clip-path: none !important; }
+:root { --glow: none; --glow2: none; --cut: 0px; }
+.logo-text { animation: none; text-shadow: none; letter-spacing: 0.04em; }
+header::after { box-shadow: none; }
+.btn, input[type='text'], input[type='password'], #msgInput, .bubble, .file-bubble, .peer, .e2ee-badge, .quote, .mini-btn, .send-btn, .attach-btn, .snd-btn { border-radius: 8px; }
+.btn.pri:hover { filter: none; }
+.dot { transform: none; border-radius: 50%; }
+.brand-foot > img { width: 50%; max-width: 150px; opacity: 1; }
+.empty-logo { filter: none; animation: none; }
+.empty-title { text-shadow: none; letter-spacing: 0.04em; }
+.sidebar { box-shadow: none; }
+.sidebar.open { box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18); }
+.drawer-overlay { background: rgba(20, 30, 40, 0.35); }
+.dot.on, .dot.connecting { box-shadow: none; }
+.e2ee-badge.active { text-shadow: none; }
+.sec-label, .peer-name, .logo-text, .adv summary { text-transform: none; }

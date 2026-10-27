@@ -1,0 +1,46 @@
+{
+  "_comentario": "Identidade da Laic Asset Management, extraída do logotipo (azul #0E74BC, cinza #717275, cinza claro #A7A8AB). Tipografia Rajdhani, próxima das letras do logotipo.",
+  "style": "corporate",
+  "themeColor": "#ffffff",
+  "colors": {
+    "bg": "#f3f6f9",
+    "surface": "#ffffff",
+    "surface2": "#eef2f6",
+    "border": "#d5dde5",
+    "accent": "#0e74bc",
+    "accent2": "#717275",
+    "violet": "#a7a8ab",
+    "danger": "#c0392b",
+    "warn": "#b7791f",
+    "text": "#26272b",
+    "muted": "#6b6d72",
+    "onAccent": "#ffffff",
+    "accentHover": "#0b5e97",
+    "inputBg": "#ffffff"
+  },
+  "fonts": {
+    "ui": null,
+    "display": "'Rajdhani', system-ui, sans-serif",
+    "mono": null,
+    "faces": []
+  },
+  "logos": {
+    "header": {
+      "file": "laic-mark.png",
+      "alt": "Laic Asset Management"
+    },
+    "foot": {
+      "file": "laic-logo.png",
+      "alt": "Laic Asset Management"
+    },
+    "empty": {
+      "file": "laic-logo.png",
+      "alt": "Laic Asset Management"
+    },
+    "credit": {
+      "file": "klaatu-logo-azul.png",
+      "alt": "Klaatu Systems",
+      "label": "by"
+    }
+  }
+}
