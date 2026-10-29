@@ -139,6 +139,20 @@ try {
   assert.equal(await ana.page.evaluate(() => localStorage.getItem('kslink.sound')), 'on');
   step('botão de som liga/desliga e lembra a escolha');
 
+  // 5d) Apagar para todos: só o autor, e some em todos os participantes
+  await beto.page.evaluate(() => { window.confirm = () => true; });
+  await beto.page.locator('.msg.sent', { hasText: 'respondendo a Ana' }).locator('.del-btn').click();
+  for (const u of [ana, cec]) {
+    await u.page.waitForFunction(
+      () => ![...document.querySelectorAll('.msg:not(.deleted) .bubble')].some((b) => b.textContent === 'respondendo a Ana')
+        && document.querySelectorAll('.msg.deleted').length >= 1,
+      null,
+      { timeout: 10_000 },
+    );
+  }
+  assert.equal(await ana.page.locator('.msg.received .del-btn').count(), 0, 'mensagens de outros não têm botão de apagar');
+  step('mensagem apagada pelo autor some para todos (com aviso)');
+
   // 6) Arquivo (≈2,5 MB, com bytes aleatórios) de Beto para todos
   const dir = mkdtempSync(join(tmpdir(), 'kslink-e2e-'));
   const payload = randomBytes(2_500_000 + 123);

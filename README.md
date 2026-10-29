@@ -14,6 +14,7 @@ Chat em grupo P2P com criptografia ponta a ponta. O servidor só faz a **sinaliz
 | Sala | — | link `#r=xxxx-xxxx-xxxx` |
 | Respostas | — | botão ↩ em cada mensagem cita o texto original (clique na citação para ir até ela) |
 | Som | — | aviso sonoro ao receber mensagem ou arquivo; botão 🔔/🔕 no topo do chat |
+| Apagar | — | botão 🗑 nas suas mensagens apaga para todos (aparece "Mensagem apagada"); só o autor pode apagar |
 
 ## Rodar localmente
 

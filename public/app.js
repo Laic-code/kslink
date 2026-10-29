@@ -162,6 +162,37 @@ function setReply(r) {
   }
 }
 
+const DELETED_TXT = 'Mensagem apagada';
+
+/** Troca o conteúdo da mensagem por um aviso e limpa as citações dela. */
+function tombstone(w) {
+  const id = w.dataset.mid;
+  w.classList.add('deleted');
+  w.replaceChildren();
+  if (w.classList.contains('received') && w.dataset.who) w.append(el('div', 'who', w.dataset.who));
+  w.append(el('div', 'bubble', `🚫 ${DELETED_TXT}`));
+  w.append(el('div', 'meta', timeNow()));
+  for (const q of msgsEl.querySelectorAll('.quote')) {
+    if (q.dataset.qid === id) q.querySelector('.q-txt').textContent = DELETED_TXT;
+  }
+  if (replyTo?.id === id) setReply(null);
+}
+
+function deleteButton(meta, w) {
+  const b = el('button', 'reply-btn del-btn', '🗑');
+  b.type = 'button';
+  b.title = 'Apagar para todos';
+  b.setAttribute('aria-label', 'Apagar para todos');
+  b.addEventListener('click', async () => {
+    if (!window.confirm('Apagar esta mensagem para todos os participantes?')) return;
+    const id = w.dataset.mid;
+    const targets = securePeers();
+    await Promise.allSettled(targets.map((p) => sendJson(p, { k: 'del', id })));
+    tombstone(w);
+  });
+  meta.append(b);
+}
+
 function jumpTo(id) {
   const t = [...msgsEl.querySelectorAll('.msg[data-mid]')].find((n) => n.dataset.mid === id);
   if (!t) return toast('A mensagem original não está mais na tela.', 'err');
@@ -181,12 +212,15 @@ function replyButton(meta, w, name, text) {
   meta.append(b);
 }
 
-function addMsg({ dir, name, text, to, total, id, re }) {
+function addMsg({ dir, name, text, to, total, id, re, from }) {
   const w = el('div', `msg ${dir}`);
   if (id) w.dataset.mid = id;
+  if (from) w.dataset.from = from;
+  if (dir === 'received') w.dataset.who = name;
   if (dir === 'received') w.append(el('div', 'who', name));
   if (re) {
     const q = el('div', 'quote');
+    q.dataset.qid = re.id;
     q.append(el('div', 'q-who', re.name), el('div', 'q-txt', re.text));
     q.addEventListener('click', () => jumpTo(re.id));
     w.append(q);
@@ -202,6 +236,7 @@ function addMsg({ dir, name, text, to, total, id, re }) {
     meta.append(el('span', 'ci', '🔒'));
   }
   if (id) replyButton(meta, w, dir === 'sent' ? 'Você' : name, text);
+  if (id && dir === 'sent') deleteButton(meta, w);
   w.append(meta);
   pushMsg(w);
 }
@@ -991,9 +1026,17 @@ async function onSecure(p, plain) {
           const r = m.re && typeof m.re === 'object' && /^[0-9a-f]{12}$/.test(String(m.re.id))
             ? { id: m.re.id, name: sanitizeName(m.re.name) || '—', text: String(m.re.text ?? '').slice(0, 140) }
             : undefined;
-          addMsg({ dir: 'received', name: p.name, text, id, re: r });
+          addMsg({ dir: 'received', name: p.name, text, id, re: r, from: p.sid });
           playPing();
         }
+        break;
+      }
+      case 'del': {
+        // só o autor (mesma sessão cifrada) pode apagar a própria mensagem
+        const id = String(m.id ?? '');
+        if (!/^[0-9a-f]{12}$/.test(id)) break;
+        const w = [...msgsEl.querySelectorAll('.msg[data-mid]')].find((n) => n.dataset.mid === id && n.dataset.from === p.sid);
+        if (w) tombstone(w);
         break;
       }
       case 'name': {

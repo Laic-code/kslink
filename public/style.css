@@ -421,3 +421,7 @@ input[readonly] { color: var(--accent); font-family: var(--mono); font-size: 0.9
 .reply-who { font-family: var(--display); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--accent2); text-transform: uppercase; font-weight: 700; }
 .reply-body { color: var(--muted); font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .reply-bar button { background: transparent; border: 1px solid var(--border); color: var(--text); width: 36px; height: 36px; font-size: 1rem; cursor: pointer; }
+
+.msg.deleted .bubble { background: transparent; border: 1px dashed var(--border); color: var(--muted); font-style: italic; font-size: 1rem; clip-path: none; border-radius: 0; }
+.msg.deleted .meta { font-size: 0.8rem; color: var(--muted); }
+.msg .meta .del-btn:hover { color: var(--danger); }
